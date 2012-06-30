@@ -35,17 +35,32 @@
 -(double)performOperation:(NSString *)operation{
     double result = 0;
     
-    // calcular o resultado
+    // Soma (+)
     if ([@"+" isEqualToString:operation]){
         result = [self popOperand] + [self popOperand];
+    // Subtração (-)
     } else if ([@"-" isEqualToString:operation]){
         double subtrahend = [self popOperand];
         result = [self popOperand] - subtrahend;
+    // Multiplicação (*)
     } else if ([@"*" isEqualToString:operation]){
         result = [self popOperand] * [self popOperand];        
+    // Divisão (/)
     } else if ([@"/" isEqualToString:operation]){
         double divisor = [self popOperand];
         if (divisor) result = [self popOperand] / divisor;
+    // Seno (sin)    
+    } else if ([@"sin" isEqualToString:operation]){
+        result = sin([self popOperand]);
+    // Coseno (cos)
+    } else if ([@"cos" isEqualToString:operation]){
+        result = cos([self popOperand]);
+    // Raiz Quadrada (√)
+    } else if ([@"√" isEqualToString:operation]){
+        result = sqrt([self popOperand]);
+    // PI (π)
+    } else if ([@"π" isEqualToString:operation]){
+        result = M_PI;
     }
     
     [self pushOperand:result];
