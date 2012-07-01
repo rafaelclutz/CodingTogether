@@ -353,9 +353,18 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-77" y="36"/>
+            <point key="canvasLocation" x="-229" y="41"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="RPNCalculatorViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RPNCalculatorViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="stackDisplay" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
