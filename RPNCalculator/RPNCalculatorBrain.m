@@ -61,6 +61,9 @@
     // PI (π)
     } else if ([@"π" isEqualToString:operation]){
         result = M_PI;
+    // CLEAR
+    } else if ([@"CLEAR" isEqualToString:operation]){
+        [_operandStack removeAllObjects];
     }
     
     [self pushOperand:result];

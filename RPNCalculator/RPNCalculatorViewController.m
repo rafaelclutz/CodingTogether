@@ -77,6 +77,18 @@
     
     [self.brain pushOperand:[self.display.text doubleValue]];
 }
+- (IBAction)clearPressed {
+    // clear booleans
+    self.userEnteredADecimal = NO;
+    self.userIsInTheMiddleOfEnteringANumber = NO;
+    
+    // clear the displays
+    self.display.text = @"0";
+    self.stackDisplay.text = @"0";
+    
+    // call the clear operation
+    [self.brain performOperation:@"CLEAR"];
+}
 
 - (IBAction)decimalPressed {
     // se o usuário já pressionou o . ele nao pode mais colocar
