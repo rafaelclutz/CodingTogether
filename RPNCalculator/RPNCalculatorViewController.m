@@ -30,6 +30,8 @@
 }
 
 - (IBAction)digitPressed:(UIButton *)sender {
+    [self delIsResultIndicator];
+    
     NSString *digit = [sender currentTitle];
     if (self.userIsInTheMiddleOfEnteringANumber){
         self.display.text = [self.display.text stringByAppendingString:digit];        
@@ -42,6 +44,8 @@
 - (IBAction)operationPressed:(UIButton *)sender {
     if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
     
+    [self delIsResultIndicator];
+    
     // reset
     self.userEnteredADecimal = NO;
     
@@ -52,6 +56,8 @@
     } else {
         self.stackDisplay.text = [stackDisplayString stringByAppendingFormat:@" %@", sender.currentTitle];
     }
+    
+    [self setIsResultIndicator];
     
     double result = [self.brain performOperation:sender.currentTitle];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
@@ -89,8 +95,49 @@
     // call the clear operation
     [self.brain performOperation:@"CLEAR"];
 }
+- (IBAction)backspacePressed {
+    int tamanho = self.display.text.length;
+    
+    // se o tamanho for maior que 1
+    if (tamanho > 1){
+        self.display.text = [self.display.text substringToIndex:tamanho - 1];        
+    }
+}
+- (IBAction)plusMinusPressed {
+    NSString *displayString = self.display.text;
+    
+    // Add or remove leading "-" from string 
+    if ([displayString compare:@"-" options:0 range:NSMakeRange(0, 1)] == NSOrderedSame)
+    {
+        // Return substring after the "-" 
+        self.display.text = [displayString substringFromIndex:(1)];
+    } else {
+        // Prepend "-" to displayString 
+        self.display.text = [NSString stringWithFormat:@"-%@", displayString];
+    }
+}
+
+- (void) setIsResultIndicator; {
+    NSString *sumSignLong = @" =";
+    NSRange posOfSumSign = [self.stackDisplay.text rangeOfString:sumSignLong];
+    if (posOfSumSign.location == NSNotFound) {
+        self.stackDisplay.text = [self.stackDisplay.text stringByAppendingString:sumSignLong];
+    }
+}
+
+- (void) delIsResultIndicator; {
+    NSString *sumSignLong = @" =";
+    NSRange posOfSumSign = [self.stackDisplay.text rangeOfString:sumSignLong];
+    if (posOfSumSign.location != NSNotFound) {
+        self.stackDisplay.text = [self.stackDisplay.text substringToIndex:posOfSumSign.location];
+    }
+    
+}
 
 - (IBAction)decimalPressed {
+    // deleta o = se e;e estiver no display histórico
+    [self delIsResultIndicator];
+    
     // se o usuário já pressionou o . ele nao pode mais colocar
     if (self.userEnteredADecimal){
         return;
@@ -98,7 +145,7 @@
         if (self.userIsInTheMiddleOfEnteringANumber){
             self.display.text = [self.display.text stringByAppendingString:@"."];
         } else {
-            self.display.text = @".";
+            self.display.text = @"0.";
             self.userIsInTheMiddleOfEnteringANumber = YES;
         }
         
